@@ -18,4 +18,4 @@ Usage: RC4CLI.exe [-e|d] <file.ext> <password>
 
 This project is licensed under the ISC License.
 
-#### Copyright (c) 2020-2022 Pedro F. Albanese - ALBANESE Research Lab.
+#### Copyright (c) 2016-2022 Pedro F. Albanese - ALBANESE Research Lab.
