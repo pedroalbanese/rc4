@@ -1,5 +1,5 @@
 ; ====================================================
-; ============= Encryption Tool With CLI =============
+; ============= Encryption Tool With GUI =============
 ; ====================================================
 ; AutoIt version: 3.3.12.0
 ; Language:       English
@@ -11,25 +11,71 @@
 ; ----------------------------------------------------------------------------
 
 #NoTrayIcon
+#include <ComboConstants.au3>
+#include <EditConstants.au3>
+#include <GUIConstantsEx.au3>
+#include <String.au3>
+#include <WindowsConstants.au3>
+#include <GUIEdit.au3>
+#include <WinAPI.au3>
 
-If $CmdLineRaw == "" Or $CmdLine[0] == "1" Or $CmdLine[0] == "2" Then
-	ConsoleWrite("RC4 Encrypt 1.0 - ALBANESE Research Lab " & Chr(184) & " 2016" & @CRLF) ;
-	ConsoleWrite("Usage: " & @ScriptName & " [-e|d] <file.ext> <password>" & @CRLF) ;
-Else
-	If FileExists($CmdLine[2]) Then
-		$full = FileRead($CmdLine[2], 300000000)
-		If $CmdLine[1] == "-e" Then
-			FileOpen($CmdLine[2], 2)
-			FileWrite($CmdLine[2], _StringEncryptRC4($full, $CmdLine[3]))
-		ElseIf $CmdLine[1] == "-d" Then
-			FileOpen($CmdLine[2], 2)
-			FileWrite($CmdLine[2], _StringDecryptRC4($full, $CmdLine[3]))
-		EndIf
-	Else
-		ConsoleWrite("Error: """ & $CmdLine[1] & """ not found." & @CRLF) ;
-	EndIf
-EndIf
-Exit
+#include <StaticConstants.au3>
+
+; #include files for encryption and GUI constants
+
+; Creates window
+GUICreate('RC4 Encrypt 1.0 - ALBANESE Research Lab ' & Chr(169) & ' 2017-2019', 590, 400, -1, -1, -1, $WS_EX_ACCEPTFILES)
+GUISetFont(9, 400, 1, "Consolas")
+
+
+; Creates main edit
+Local $idEditText = GUICtrlCreateEdit('', 5, 5, 580, 350, $ES_AUTOVSCROLL + $WS_VSCROLL)
+GUICtrlSetState($idEditText, $GUI_DROPACCEPTED)
+
+Local $idInputPass = GUICtrlCreateInput('', 5, 360, 200, 20, $ES_PASSWORD)
+GUICtrlSetState($idInputPass, $GUI_DROPACCEPTED)
+
+; Encryption/Decryption buttons
+Local $idEncryptButton = GUICtrlCreateButton('Encrypt', 410, 360, 85, 35)
+Local $idDecryptButton = GUICtrlCreateButton('Decrypt', 500, 360, 85, 35)
+
+GUICtrlCreateLabel('Password', 5, 385)
+
+
+; Create dummy for accelerator key to activate
+$hSelAll = GUICtrlCreateDummy()
+
+; Shows window
+GUISetState()
+
+	; Set accelerators for Ctrl+a
+Dim $AccelKeys[1][2]=[["^a", $hSelAll]]
+GUISetAccelerators($AccelKeys)
+
+Local $dEncrypted
+
+While 1
+	Switch GUIGetMsg()
+		Case $GUI_EVENT_CLOSE
+			ExitLoop
+
+		Case $idEncryptButton
+			; When you press Encrypt
+
+			; Calls the encryption. Sets the data of editbox with the encrypted string
+			$dEncrypted = _StringEncryptRC4(GUICtrlRead($idEditText), GUICtrlRead($idInputPass))     ; Encrypt the text with the new cryptographic key.
+			GUICtrlSetData($idEditText, StringReplace($dEncrypted, "0x", ""))
+
+		Case $idDecryptButton
+			; When you press Decrypt
+
+			; Calls the encryption. Sets the data of editbox with the encrypted string
+			$dEncrypted = _StringDecryptRC4(StringReplace(GUICtrlRead($idEditText), @CRLF, ""), GUICtrlRead($idInputPass))     ; Decrypt the data using the generic password string. The return value is a binary string.
+			GUICtrlSetData($idEditText, $dEncrypted)
+       Case $hSelAll
+            _SelAll()
+	EndSwitch
+WEnd
 
 Func _StringEncryptRC4($text, $encryptkey)
 	Local $sbox[256]
@@ -73,7 +119,7 @@ Func _StringDecryptRC4($text, $encryptkey)
 	Local $k
 	Local $cipherby
 	Local $cipher
-	$text = BinaryToString($text)
+	$text = BinaryToString('0x' & $text)
 
 	$i = 0
 	$j = 0
@@ -94,6 +140,7 @@ Func _StringDecryptRC4($text, $encryptkey)
 	Next
 	Return $cipher
 EndFunc   ;==>_StringDecryptRC4
+
 
 ; Helper function
 Func __RC4Initialize($strPwd, ByRef $key, ByRef $sbox)
@@ -116,6 +163,8 @@ Func __RC4Initialize($strPwd, ByRef $key, ByRef $sbox)
 	Next
 EndFunc   ;==>__RC4Initialize
 
+
+
 Func Rot47($input)
 	Local $rotted = ""
 	For $i = 1 To StringLen($input)
@@ -130,3 +179,9 @@ Func Rot47($input)
 	Next
 	Return $rotted
 EndFunc   ;==>Rot47
+
+Func _SelAll()
+    $hWnd = _WinAPI_GetFocus()
+    $class = _WinAPI_GetClassName($hWnd)
+    If $class = 'Edit' Then _GUICtrlEdit_SetSel($hWnd, 0, -1)
+EndFunc   ;==>_SelAll
