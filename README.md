@@ -8,6 +8,8 @@
 
 In cryptography, RC4 (Rivest Cipher 4, also known as ARC4 or ARCFOUR, meaning Alleged RC4) is a stream cipher. While it is remarkable for its simplicity and speed in software, multiple vulnerabilities have been discovered in RC4, rendering it insecure. See [RFC 7465: Prohibiting RC4 Cipher Suites](https://www.rfc-editor.org/rfc/rfc7465).
 
+RC4 is not considered one of the best cryptographic systems due to encryption security, and in some applications it can become very insecure systems. However, some RC4-based systems are safe or quite safe in a practical context.
+
 #### Synopsis  
 ```batch
 RC4 Encrypt 1.0 - ALBANESE Research Lab © 2016
