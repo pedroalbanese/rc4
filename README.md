@@ -2,7 +2,7 @@
 [![ISC License](http://img.shields.io/badge/license-ISC-blue.svg)](https://github.com/pedroalbanese/rc4/blob/master/LICENSE.md) 
 [![GitHub downloads](https://img.shields.io/github/downloads/pedroalbanese/rc4/total.svg?logo=github&logoColor=white)](https://github.com/pedroalbanese/rc4/releases)
 [![GitHub release (latest by date)](https://img.shields.io/github/v/release/pedroalbanese/rc4)](https://github.com/pedroalbanese/rc4/releases)
-[![Lines of code](https://img.shields.io/github/lines/github/pedroalbanese/rc4?label=Total%20Lines&logo=github&logoColor=white)](https://github.com/pedroalbanese/rc4)
+[![Lines of code](https://img.shields.io/tokei/lines/github/pedroalbanese/rc4?label=Total%20Lines&logo=github&logoColor=white)](https://github.com/pedroalbanese/rc4)
 
 ### RC4 Trivial Obfuscator OpenSSL Compliant
 #### Imprimis
