@@ -1,4 +1,4 @@
-// RC4 Ecrypter by Pedro F. Albanese
+// RC4 Encrypter by Pedro F. Albanese
 package main
 
 import (
