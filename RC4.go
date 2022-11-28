@@ -1,3 +1,4 @@
+// RC4 Ecrypter by Pedro F. Albanese
 package main
 
 import (
@@ -13,12 +14,14 @@ import (
 	"os"
 )
 
-var derive = flag.Bool("d", false, "Derive password-based key.")
-var iter = flag.Int("i", 1024, "Iterations. (for PBKDF2)")
-var key = flag.String("k", "", "128-bit key to Encrypt/Decrypt.")
-var pbkdf = flag.String("p", "", "PBKDF2.")
-var random = flag.Bool("r", false, "Generate random 128-bit cryptographic key.")
-var salt = flag.String("s", "", "Salt. (for PBKDF2)")
+var (
+	derive = flag.Bool("d", false, "Derive password-based key.")
+	iter   = flag.Int("i", 1024, "Iterations. (for PBKDF2)")
+	key    = flag.String("k", "", "128-bit key to Encrypt/Decrypt.")
+	pbkdf  = flag.String("p", "", "PBKDF2.")
+	random = flag.Bool("r", false, "Generate random 128-bit cryptographic key.")
+	salt   = flag.String("s", "", "Salt. (for PBKDF2)")
+)
 
 func main() {
 	flag.Parse()
