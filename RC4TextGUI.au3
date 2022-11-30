@@ -20,6 +20,7 @@
 #include <WinAPI.au3>
 
 #include <StaticConstants.au3>
+#include <B64UFD.au3>
 
 ; #include files for encryption and GUI constants
 
@@ -63,14 +64,14 @@ While 1
 			; When you press Encrypt
 
 			; Calls the encryption. Sets the data of editbox with the encrypted string
-			$dEncrypted = _StringEncryptRC4(GUICtrlRead($idEditText), GUICtrlRead($idInputPass))     ; Encrypt the text with the new cryptographic key.
-			GUICtrlSetData($idEditText, StringReplace($dEncrypted, "0x", ""))
+			$dEncrypted = base64(_StringEncryptRC4(GUICtrlRead($idEditText), GUICtrlRead($idInputPass)), true)     ; Encrypt the text with the new cryptographic key.
+			GUICtrlSetData($idEditText, StringReplace($dEncrypted, @LF, @CRLF))
 
 		Case $idDecryptButton
 			; When you press Decrypt
 
 			; Calls the encryption. Sets the data of editbox with the encrypted string
-			$dEncrypted = _StringDecryptRC4(StringReplace(GUICtrlRead($idEditText), @CRLF, ""), GUICtrlRead($idInputPass))     ; Decrypt the data using the generic password string. The return value is a binary string.
+			$dEncrypted = _StringDecryptRC4(base64(StringReplace(GUICtrlRead($idEditText), @CRLF, @LF), False), GUICtrlRead($idInputPass))     ; Decrypt the data using the generic password string. The return value is a binary string.
 			GUICtrlSetData($idEditText, $dEncrypted)
        Case $hSelAll
             _SelAll()
@@ -119,7 +120,8 @@ Func _StringDecryptRC4($text, $encryptkey)
 	Local $k
 	Local $cipherby
 	Local $cipher
-	$text = BinaryToString('0x' & $text)
+;	$text = BinaryToString('0x' & $text)
+	$text = BinaryToString($text)
 
 	$i = 0
 	$j = 0
