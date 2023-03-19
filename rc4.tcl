@@ -1,3 +1,4 @@
+#!/usr/bin/tclsh
 package require rc4
 package require base64
 
