@@ -14,7 +14,6 @@ RC4:
 
 <?php
    require_once( "rc4.php" );
-   $key = "12345";
    $key = "0123456789abcdef";
    $plaintext = "Hello World!";
    $ciphertext = rc4( $key, $plaintext );
